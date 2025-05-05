@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 动画生成器</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>AI 动画生成器</h1>
+        <div class="preview-box" id="preview-box"></div>
+        
+        <div class="controls">
+            <button id="play-btn" disabled>播放</button>
+            <button id="pause-btn" disabled>暂停</button>
+            <button id="download-btn" disabled>下载</button>
+        </div>
+
+        <div class="input-section">
+            <textarea id="prompt-input" placeholder="请输入动画描述..."></textarea>
+            <div class="character-count">0/500</div>
+        </div>
+
+        <div class="style-section">
+            <button class="style-btn active" data-style="anime">动漫风格</button>
+            <button class="style-btn" data-style="realistic">写实风格</button>
+            <button class="style-btn" data-style="cartoon">卡通风格</button>
+        </div>
+
+        <div class="settings">
+            <div class="setting">
+                <label>持续时间 (秒):</label>
+                <input type="range" id="duration-slider" min="1" max="10" value="5">
+                <span id="duration-value">5s</span>
+            </div>
+            <div class="setting">
+                <label>帧率:</label>
+                <select id="fps-select">
+                    <option value="24">24 FPS</option>
+                    <option value="30">30 FPS</option>
+                    <option value="60">60 FPS</option>
+                </select>
+            </div>
+        </div>
+
+        <button id="generate-btn">生成动画</button>
+
+        <div class="loading" id="loading">
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
