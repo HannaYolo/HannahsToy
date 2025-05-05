@@ -1,0 +1,107 @@
+body {
+  background: #ffe7f0;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #ff5caa;
+}
+
+.upload-section {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  margin: 20px 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.upload-section h2 {
+  color: #ff5caa;
+  margin-bottom: 15px;
+}
+
+.upload-button, .add-button {
+  background: #ff5caa;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.item-name-input {
+  padding: 10px;
+  border: 2px solid #ff5caa;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin: 10px;
+  width: 200px;
+}
+
+.item-display img {
+  width: 250px;
+  border-radius: 20px;
+  border: 5px solid #ff5caa;
+  margin-bottom: 10px;
+  object-fit: cover;
+  height: 250px;
+}
+
+.item-display p {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.vote-buttons button {
+  background: #ff5caa;
+  color: white;
+  border: none;
+  margin: 10px;
+  padding: 15px 25px;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.vote-buttons button:hover {
+  transform: scale(1.05);
+}
+
+.results {
+  margin-top: 20px;
+  font-size: 1.2rem;
+}
+
+.points {
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.next-button {
+  background: #8e44ad;
+  color: white;
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.next-button:hover {
+  transform: scale(1.05);
+} 

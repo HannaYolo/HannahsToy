@@ -1,0 +1,22 @@
+{
+  "name": "pikpop-game",
+  "version": "1.0.0",
+  "description": "PikPop Auction Game",
+  "main": "script.js",
+  "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d .",
+    "build": "echo 'No build step required'"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "body-parser": "^1.20.2",
+    "axios": "^1.6.7",
+    "form-data": "^4.0.0"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
+  },
+  "homepage": "https://HannaYolo.github.io/pikpop-game"
+}

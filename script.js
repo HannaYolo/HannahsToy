@@ -1,131 +1,100 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const previewBox = document.getElementById('preview-box');
-    const promptInput = document.getElementById('prompt-input');
-    const characterCount = document.querySelector('.character-count');
-    const styleButtons = document.querySelectorAll('.style-btn');
-    const durationSlider = document.getElementById('duration-slider');
-    const durationValue = document.getElementById('duration-value');
-    const fpsSelect = document.getElementById('fps-select');
-    const generateBtn = document.getElementById('generate-btn');
-    const playBtn = document.getElementById('play-btn');
-    const pauseBtn = document.getElementById('pause-btn');
-    const downloadBtn = document.getElementById('download-btn');
-    const loadingSection = document.getElementById('loading');
-    const progressBar = document.getElementById('progress');
-
-    let selectedStyle = 'anime';
-
-    // 更新字符计数
-    promptInput.addEventListener('input', () => {
-        const count = promptInput.value.length;
-        characterCount.textContent = \\/500\;
-    });
-
-    // 更新持续时间显示
-    durationSlider.addEventListener('input', () => {
-        durationValue.textContent = \\s\;
-    });
-
-    // 样式选择
-    styleButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            styleButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            selectedStyle = button.dataset.style;
-        });
-    });
-
-    // 生成动画
-    generateBtn.addEventListener('click', async () => {
-        const prompt = promptInput.value.trim();
-        if (!prompt) {
-            alert('请输入动画描述');
-            return;
+    let items = [
+        { 
+            title: "Alien Egg Lamp", 
+            image: "https://picsum.photos/seed/alien/500/500"
+        },
+        { 
+            title: "NFT Toilet Paper", 
+            image: "https://picsum.photos/seed/nft/500/500"
+        },
+        { 
+            title: "Floating Dog Statue", 
+            image: "https://picsum.photos/seed/dog/500/500"
+        },
+        { 
+            title: "Crypto Banana", 
+            image: "https://picsum.photos/seed/banana/500/500"
+        },
+        { 
+            title: "Invisible Chair", 
+            image: "https://picsum.photos/seed/chair/500/500"
         }
+    ];
 
-        loadingSection.style.display = 'block';
-        progressBar.style.width = '0%';
-        generateBtn.disabled = true;
+    let currentItem = 0;
+    let yes = 0;
+    let no = 0;
+    let points = 0;
 
-        try {
-            const duration = durationSlider.value;
-            const fps = fpsSelect.value;
-            const style = selectedStyle;
+    // 图片上传处理
+    document.getElementById('imageUpload').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('itemImage').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 
-            const response = await fetch('/api/generate-animation', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    prompt,
-                    duration,
-                    fps,
-                    style
-                })
+    // 添加新物品
+    function addNewItem() {
+        const itemName = document.getElementById('itemName').value;
+        const itemImage = document.getElementById('itemImage').src;
+        
+        if (itemName && itemImage) {
+            items.push({
+                title: itemName,
+                image: itemImage
             });
-
-            if (!response.ok) {
-                throw new Error('生成失败');
-            }
-
-            const data = await response.json();
             
-            previewBox.innerHTML = \
-                <video id=\"animationVideo\" controls>
-                    <source src=\"\\" type=\"video/mp4\">
-                    您的浏览器不支持视频播放
-                </video>
-            \;
-
-            playBtn.disabled = false;
-            pauseBtn.disabled = false;
-            downloadBtn.disabled = false;
-
-            const video = document.getElementById('animationVideo');
-            video.addEventListener('play', () => {
-                playBtn.disabled = true;
-                pauseBtn.disabled = false;
-            });
-            video.addEventListener('pause', () => {
-                playBtn.disabled = false;
-                pauseBtn.disabled = true;
-            });
-
-        } catch (error) {
-            console.error('生成动画时出错:', error);
-            alert('生成动画失败，请稍后重试');
-        } finally {
-            loadingSection.style.display = 'none';
-            generateBtn.disabled = false;
+            // 清空输入
+            document.getElementById('itemName').value = '';
+            document.getElementById('itemImage').src = 'https://picsum.photos/500/500';
+            
+            alert('物品添加成功！');
+        } else {
+            alert('请填写物品名称并上传图片');
         }
-    });
+    }
 
-    // 播放控制
-    playBtn.addEventListener('click', () => {
-        const video = document.getElementById('animationVideo');
-        if (video) {
-            video.play();
-        }
-    });
+    // 更新显示
+    function updateDisplay() {
+        const item = items[currentItem];
+        document.getElementById('itemImage').src = item.image;
+        document.getElementById('itemTitle').textContent = item.title;
+        document.getElementById('yesVotes').textContent = `Worth It: ${yes}`;
+        document.getElementById('noVotes').textContent = `Not Worth It: ${no}`;
+        document.getElementById('points').textContent = points;
+    }
 
-    pauseBtn.addEventListener('click', () => {
-        const video = document.getElementById('animationVideo');
-        if (video) {
-            video.pause();
+    // 投票
+    function vote(type) {
+        if (type === 'yes') {
+            yes++;
+            points += 10;
+        } else {
+            no++;
+            points -= 5;
         }
-    });
+        updateDisplay();
+    }
 
-    // 下载
-    downloadBtn.addEventListener('click', () => {
-        const video = document.getElementById('animationVideo');
-        if (video) {
-            const link = document.createElement('a');
-            link.href = video.src;
-            link.download = 'animation.mp4';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-    });
-});
+    // 下一个物品
+    function nextItem() {
+        currentItem = (currentItem + 1) % items.length;
+        yes = 0;
+        no = 0;
+        updateDisplay();
+    }
+
+    // 初始化显示
+    updateDisplay();
+
+    // 添加全局函数
+    window.addNewItem = addNewItem;
+    window.vote = vote;
+    window.nextItem = nextItem;
+}); 
